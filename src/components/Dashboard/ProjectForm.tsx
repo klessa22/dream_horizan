@@ -97,7 +97,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full bg-stone-850 p-2 text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
+          className="absolute right-4 top-4 rounded-full bg-stone-800 p-2 text-stone-400 hover:text-white hover:bg-stone-700 transition-colors"
         >
           <X size={16} />
         </button>
@@ -224,7 +224,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 rounded-xl border border-stone-800 bg-stone-900 hover:bg-stone-850 px-4 py-3 text-xs font-semibold tracking-wider uppercase text-stone-400 hover:text-white transition-all duration-200"
+            className="flex-1 rounded-xl border border-stone-800 bg-stone-900 hover:bg-stone-800 px-4 py-3 text-xs font-semibold tracking-wider uppercase text-stone-400 hover:text-white transition-all duration-200"
           >
             Cancel
           </button>

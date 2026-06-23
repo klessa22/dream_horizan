@@ -83,7 +83,7 @@ export const DashboardHome = () => {
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 rounded-xl border border-stone-800 bg-stone-900/60 px-4 py-2.5 text-xs font-semibold tracking-wider uppercase text-stone-300 hover:text-white hover:bg-stone-850 hover:border-stone-700 transition-all duration-300"
+              className="flex items-center gap-2 rounded-xl border border-stone-800 bg-stone-900/60 px-4 py-2.5 text-xs font-semibold tracking-wider uppercase text-stone-300 hover:text-white hover:bg-stone-800 hover:border-stone-700 transition-all duration-300"
             >
               <Home size={15} /> View Site
             </button>
@@ -95,7 +95,7 @@ export const DashboardHome = () => {
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 rounded-xl bg-stone-900 border border-stone-800 px-4 py-2.5 text-xs font-semibold tracking-wider uppercase text-stone-400 hover:text-white hover:bg-stone-850 hover:border-stone-700 transition-all duration-300"
+              className="flex items-center gap-2 rounded-xl bg-stone-900 border border-stone-800 px-4 py-2.5 text-xs font-semibold tracking-wider uppercase text-stone-400 hover:text-white hover:bg-stone-800 hover:border-stone-700 transition-all duration-300"
             >
               <LogOut size={15} /> Log Out
             </button>
@@ -168,13 +168,14 @@ export const DashboardHome = () => {
           </div>
 
           <div className="relative flex items-center">
-            <Search className="absolute left-3.5 text-stone-500" size={16} />
+            <Search className="absolute left-3.5 text-stone-500" size={16} aria-hidden="true" />
             <input
               type="text"
               placeholder="Search projects by name..."
+              aria-label="Search projects"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full md:w-64 bg-stone-900/60 border border-stone-800/80 rounded-xl pl-10 pr-4 py-2.5 text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-[#f97316] focus:bg-stone-900 transition-all duration-300"
+              className="w-full md:w-64 bg-stone-900/60 border border-stone-800/80 rounded-xl pl-10 pr-4 py-2.5 text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/30 transition-all duration-300"
             />
           </div>
         </div>
