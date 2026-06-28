@@ -82,18 +82,22 @@ export interface Project {
   createdAt: number;
 }
 
+const base = (import.meta as any).env.BASE_URL || '/';
+const getWorkUrl = (name: string) => `${base}work/${name}`;
+
 const defaultProjects: Project[] = [
-  { id: '1', category: 'Residential', title: 'Mountain View Villa', description: 'A stunning modern villa nestled in the mountains, featuring floor-to-ceiling glass walls that frame panoramic mountain views. The design merges contemporary architecture with natural stone elements.', imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'Private', year: '2024', createdAt: Date.now() - 600000 },
-  { id: '2', category: 'Commercial', title: 'Tech Hub Pavilion', description: 'Innovative workspace designed for the future of tech. Open-plan offices meet collaborative pods, all wrapped in a sustainable timber-and-glass facade.', imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'TechStart Inc.', year: '2024', createdAt: Date.now() - 500000 },
-  { id: '3', category: 'Residential', title: 'Urban Minimal Estate', description: 'Clean lines and open spaces in the heart of the city. A minimalist approach that maximizes natural light and creates a serene retreat from the urban bustle.', imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'Private', year: '2023', createdAt: Date.now() - 400000 },
-  { id: '4', category: 'Public', title: 'City Library', description: 'A beacon of knowledge and modern public infrastructure. Dynamic reading spaces, natural ventilation, and a striking spiral staircase define this cultural landmark.', imageUrl: 'https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'Municipal Corp.', year: '2023', createdAt: Date.now() - 300000 },
-  { id: '5', category: 'Hospitality', title: 'Seaside Resort', description: 'Luxury and relaxation meeting the ocean breeze. Private villas with infinity pools, open-air dining pavilions, and lush tropical landscaping.', imageUrl: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'Oceanic Hotels', year: '2024', createdAt: Date.now() - 200000 },
-  { id: '6', category: 'Commercial', title: 'Financial Tower', description: 'An iconic skyscraper defining the city skyline. A double-skin glass facade, sky gardens on every fifth floor, and a dramatic crown that lights up the nightscape.', imageUrl: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', client: 'Apex Capital', year: '2023', createdAt: Date.now() - 100000 }
+  { id: '1', category: 'Residential', title: 'The Cantilever House', description: 'A stunning architectural feat featuring a bold cantilevered concrete volume that floats effortlessly above a fully glazed ground storey. Clean lines and custom structural precision define this luxury estate.', imageUrl: getWorkUrl('download.png'), client: 'Private Estate', year: '2024', createdAt: Date.now() - 500000 },
+  { id: '2', category: 'Commercial', title: 'Apex Commercial Pavilion', description: 'An innovative workspace designed for collaborative synergy. Features double-height timber ceilings, sustainable local stone accents, and custom structural glazing that floods the office with natural light.', imageUrl: getWorkUrl('download (1).png'), client: 'Vertex Holdings', year: '2025', createdAt: Date.now() - 400000 },
+  { id: '3', category: 'Public', title: 'Symphony Concert Hall', description: 'A monumental civic landmark designed to enhance acoustic resonance and visual flow. Features sculptural wood panels, dramatic overhead skylights, and state-of-the-art spatial optimization.', imageUrl: getWorkUrl('download (2).png'), client: 'Municipal Culture Board', year: '2023', createdAt: Date.now() - 300000 },
+  { id: '4', category: 'Hospitality', title: 'Zenith Luxury Resort', description: 'An immersive sanctuary nestled in natural topography. Features individual villas with private infinity pools, open-air pavilion dining, and premium sustainable material sourcing.', imageUrl: getWorkUrl('download (3).png'), client: 'Aero Hotels & Resorts', year: '2024', createdAt: Date.now() - 200000 },
+  { id: '5', category: 'Commercial', title: 'The Pavilion Offices', description: 'A modern low-rise corporate headquarters blending interior and exterior spaces. Integrates landscaped sky gardens, smart automation systems, and custom steel-and-glass facades.', imageUrl: getWorkUrl('download (4).png'), client: 'TechStart Inc.', year: '2024', createdAt: Date.now() - 100000 }
 ];
 
 export const getLocalProjects = (): Project[] => {
   const stored = localStorage.getItem('dreamhorizon_projects');
-  if (!stored) {
+  // If stored has Unsplash images (meaning it is the old default set), let's clear it to update with the new work images!
+  const hasOldDefaults = stored && stored.includes('unsplash.com');
+  if (!stored || hasOldDefaults) {
     localStorage.setItem('dreamhorizon_projects', JSON.stringify(defaultProjects));
     return defaultProjects;
   }
