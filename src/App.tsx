@@ -1190,37 +1190,38 @@ const Process = () => {
   );
 };
 
+// --- Why Choose Us ---
 // --- Client Portal Showcase ---
 const ClientPortalShowcase = () => {
   const [activeTab, setActiveTab] = useState<'timeline' | 'documents' | 'budget' | 'camera'>('timeline');
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // iPad Mockup (Left Column) Entrance
+    // Left column iPad mockup reveal
     gsap.from(".portal-left-col", {
       immediateRender: false,
       scrollTrigger: {
         trigger: ".portal-left-col",
-        start: "top 80%",
+        start: "top 85%",
         toggleActions: "play none none none"
       },
       opacity: 0,
       x: -40,
-      duration: 1.2,
+      duration: 1.0,
       ease: "power3.out"
     });
 
-    // Content & Tabs (Right Column) Entrance
+    // Right column content reveal
     gsap.from(".portal-right-col", {
       immediateRender: false,
       scrollTrigger: {
-        trigger: ".portal-left-col",
-        start: "top 80%",
+        trigger: ".portal-right-col",
+        start: "top 85%",
         toggleActions: "play none none none"
       },
       opacity: 0,
       x: 40,
-      duration: 1.2,
+      duration: 1.0,
       delay: 0.15,
       ease: "power3.out"
     });
@@ -1266,15 +1267,15 @@ const ClientPortalShowcase = () => {
           {/* Left Column: Interactive iPad Mockup */}
           <div className="lg:col-span-7 w-full portal-left-col">
             {/* iPad outer shell */}
-            <div className="bg-stone-950 border-[10px] border-stone-800 rounded-[2.5rem] shadow-2xl shadow-black/85 overflow-hidden relative aspect-[4/3] w-full max-w-2xl mx-auto flex flex-col">
+            <div className="bg-stone-955 border-[10px] border-stone-800 rounded-[2.5rem] shadow-2xl shadow-black/85 overflow-hidden relative aspect-[4/3] w-full max-w-2xl mx-auto flex flex-col">
               {/* Device camera dot */}
-              <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-stone-800 rounded-full z-20" />
+              <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-stone-850 rounded-full z-20" />
               
               {/* Portal Header */}
               <div className="bg-stone-900/90 border-b border-stone-800/80 px-6 py-4 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded bg-accent/10 flex items-center justify-center border border-accent/20">
-                    <span className="font-serif text-accent font-bold text-xs">DH</span>
+                    <span className="font-serif text-accent font-bold text-xs font-mono">DH</span>
                   </div>
                   <div>
                     <h4 className="text-[0.7rem] font-bold tracking-wider text-stone-200 uppercase">Dream Horizon Portal</h4>
@@ -1288,7 +1289,7 @@ const ClientPortalShowcase = () => {
               </div>
 
               {/* Portal Content Area */}
-              <div className="flex-1 bg-stone-950 p-6 overflow-y-auto min-h-0 relative">
+              <div className="flex-1 bg-stone-955 p-6 overflow-y-auto min-h-0 relative">
                 <AnimatePresence mode="wait">
                   {activeTab === 'timeline' && (
                     <motion.div
@@ -1303,7 +1304,7 @@ const ClientPortalShowcase = () => {
                         <span className="text-xs font-bold text-stone-300 uppercase tracking-wider">Overall Completion</span>
                         <span className="text-xs font-bold text-accent font-mono">72% Completed</span>
                       </div>
-                      <div className="h-1.5 bg-stone-800 rounded-full overflow-hidden w-full">
+                      <div className="h-1.5 bg-stone-850 rounded-full overflow-hidden w-full">
                         <div className="h-full bg-gradient-to-r from-accent to-[#ca8a04] rounded-full w-[72%]" />
                       </div>
 
@@ -1352,7 +1353,7 @@ const ClientPortalShowcase = () => {
                         ].map((doc, idx) => (
                           <div key={idx} className="bg-stone-900/60 border border-stone-900/80 hover:border-stone-800 transition-all rounded-xl p-3 flex flex-col justify-between cursor-pointer group">
                             <div className="flex items-start gap-3">
-                              <div className="p-2 bg-stone-800 rounded-lg group-hover:bg-accent/10 group-hover:text-accent transition-colors text-stone-400">
+                              <div className="p-2 bg-stone-850 rounded-lg group-hover:bg-accent/10 group-hover:text-accent transition-colors text-stone-400">
                                 <FileText size={14} />
                               </div>
                               <div className="min-w-0">
@@ -1380,15 +1381,15 @@ const ClientPortalShowcase = () => {
                       className="space-y-5"
                     >
                       <div className="grid grid-cols-3 gap-3">
-                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-800 text-center">
+                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-850 text-center">
                           <h6 className="text-[0.55rem] text-stone-500 uppercase tracking-wider font-bold">Total Budget</h6>
                           <p className="text-xs font-serif font-bold text-white mt-1 font-mono">₹4.50 Cr</p>
                         </div>
-                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-800 text-center">
+                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-850 text-center">
                           <h6 className="text-[0.55rem] text-stone-500 uppercase tracking-wider font-bold">Disbursed</h6>
                           <p className="text-xs font-serif font-bold text-green-400 mt-1 font-mono">₹2.88 Cr</p>
                         </div>
-                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-800 text-center">
+                        <div className="bg-stone-900 p-2.5 rounded-xl border border-stone-850 text-center">
                           <h6 className="text-[0.55rem] text-stone-500 uppercase tracking-wider font-bold">Invoiced</h6>
                           <p className="text-xs font-serif font-bold text-amber-400 mt-1 font-mono">₹32.4 L</p>
                         </div>
@@ -1408,7 +1409,7 @@ const ClientPortalShowcase = () => {
                               <span className="font-semibold text-stone-300">{cat.category}</span>
                               <span className="text-stone-500 font-mono">{cat.spent} / {cat.allocated}</span>
                             </div>
-                            <div className="h-1 bg-stone-800 rounded-full overflow-hidden">
+                            <div className="h-1 bg-stone-850 rounded-full overflow-hidden">
                               <div className="h-full bg-gradient-to-r from-accent to-[#ca8a04] rounded-full" style={{ width: `${cat.percent}%` }} />
                             </div>
                           </div>
@@ -1426,7 +1427,7 @@ const ClientPortalShowcase = () => {
                       transition={{ duration: 0.3 }}
                       className="relative h-full flex flex-col justify-between"
                     >
-                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-stone-800 bg-stone-950">
+                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-stone-800 bg-stone-955">
                         {/* Simulated video frame */}
                         <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url("https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")` }} />
                         
@@ -1448,7 +1449,7 @@ const ClientPortalShowcase = () => {
                       
                       <div className="bg-stone-900/60 p-3 rounded-xl border border-stone-900/80 mt-3 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="p-2 bg-stone-800 rounded-lg text-accent">
+                          <div className="p-2 bg-stone-850 rounded-lg text-accent">
                             <Camera size={14} />
                           </div>
                           <div>
@@ -1457,7 +1458,7 @@ const ClientPortalShowcase = () => {
                           </div>
                         </div>
                         <div className="flex gap-1.5">
-                          <button className="px-2 py-0.5 bg-stone-800 hover:bg-stone-800 transition text-[0.55rem] font-bold uppercase tracking-wider rounded text-stone-400">Cam 01</button>
+                          <button className="px-2 py-0.5 bg-stone-850 hover:bg-stone-800 transition text-[0.55rem] font-bold uppercase tracking-wider rounded text-stone-400">Cam 01</button>
                           <button className="px-2 py-0.5 bg-accent text-black text-[0.55rem] font-bold uppercase tracking-wider rounded">Cam 03</button>
                         </div>
                       </div>
@@ -1471,7 +1472,7 @@ const ClientPortalShowcase = () => {
           {/* Right Column: Explanatory Texts & Interactive Controls */}
           <div className="lg:col-span-5 space-y-10 portal-right-col">
             <div>
-              <span className="inline-block text-[0.65rem] font-bold tracking-[0.3em] text-stone-500 mb-4 uppercase">The Client Experience</span>
+              <span className="inline-block text-[0.65rem] font-bold tracking-[0.3em] text-stone-400 mb-4 uppercase">The Client Experience</span>
               <h2 className="text-4xl md:text-5xl font-serif leading-[1.08] text-white mb-6">Complete Build Transparency</h2>
               <p className="text-stone-400 text-sm leading-relaxed">
                 We believe that premium craftsmanship requires absolute project alignment. Our bespoke client portal eliminates anxiety, providing real-time updates and full administrative control directly to your device.
@@ -1487,7 +1488,7 @@ const ClientPortalShowcase = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full text-left p-4 rounded-xl border transition-all duration-350 flex gap-4 ${isActive ? 'bg-accent border-accent text-black shadow-lg shadow-accent/10' : 'bg-stone-900/40 border-stone-900/50 text-stone-300 hover:bg-stone-900/80 hover:border-stone-800'}`}
+                    className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex gap-4 ${isActive ? 'bg-accent border-accent text-black shadow-lg shadow-accent/10' : 'bg-stone-900/40 border-stone-900/50 text-stone-300 hover:bg-stone-900/80 hover:border-stone-800'}`}
                   >
                     <div className={`p-2 rounded-lg transition-colors shrink-0 flex items-center justify-center ${isActive ? 'bg-black/10 text-black' : 'bg-stone-800 text-accent'}`}>
                       <TabIcon size={18} />
