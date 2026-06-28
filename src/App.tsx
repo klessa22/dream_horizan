@@ -18,6 +18,26 @@ import { useSiteContent } from './lib/siteContent';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+// Optimize ScrollTrigger for mobile performance
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+});
+
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || 'ontouchstart' in window;
+  });
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches || 'ontouchstart' in window);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return isMobile;
+};
+
 // --- Runtime theme: push the admin-chosen accent into CSS variables ---
 const parseHex = (hex: string): { r: number; g: number; b: number } | null => {
   const clean = hex.replace('#', '').trim();
@@ -59,8 +79,12 @@ const CursorFollower = () => {
   const x = useSpring(cursorX, springConfig);
   const y = useSpring(cursorY, springConfig);
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Skip mouse tracking entirely on touch devices — saves CPU
+    if (isMobile) return;
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -363,30 +387,30 @@ const AbstractArchitecture = () => {
     <group ref={groupRef}>
       <Float speed={1.8} rotationIntensity={0.3} floatIntensity={0.6}>
         {/* Large marble block */}
-        <RoundedBox ref={mesh1Ref} args={[2.5, 2.5, 2.5]} radius={0.06} smoothness={5} position={[-2.2, 0.2, -1.2]}>
+        <RoundedBox ref={mesh1Ref} args={[2.5, 2.5, 2.5]} radius={0.06} smoothness={3} position={[-2.2, 0.2, -1.2]}>
           <meshStandardMaterial color="#fafaf9" roughness={0.15} metalness={0.05} />
         </RoundedBox>
         
         {/* Copper wireframe */}
-        <RoundedBox ref={mesh2Ref} args={[1.6, 3.8, 1.6]} radius={0.06} smoothness={5} position={[2.2, 1.2, 0.3]}>
+        <RoundedBox ref={mesh2Ref} args={[1.6, 3.8, 1.6]} radius={0.06} smoothness={3} position={[2.2, 1.2, 0.3]}>
           <meshStandardMaterial color="#ca8a04" roughness={0.2} metalness={0.9} wireframe />
         </RoundedBox>
         
-        {/* Distorted core sphere */}
+        {/* Distorted core sphere — reduced segments for performance */}
         <mesh position={[0, -1.2, 1.2]}>
-          <sphereGeometry args={[1.3, 64, 64]} />
+          <sphereGeometry args={[1.3, 32, 32]} />
           <MeshDistortMaterial color="#f97316" envMapIntensity={1.2} clearcoat={1} clearcoatRoughness={0.1} metalness={0.95} roughness={0.05} distort={0.3} speed={2} />
         </mesh>
 
-        {/* Floating Gold Torus */}
+        {/* Floating Gold Torus — reduced segments */}
         <mesh ref={mesh3Ref} position={[-1.2, -1.5, 0.5]}>
-          <torusGeometry args={[0.7, 0.15, 16, 100]} />
+          <torusGeometry args={[0.7, 0.15, 12, 48]} />
           <meshStandardMaterial color="#ca8a04" metalness={0.9} roughness={0.1} />
         </mesh>
 
-        {/* Floating white sphere */}
+        {/* Floating white sphere — reduced segments */}
         <mesh ref={mesh4Ref} position={[1.5, -1.8, -0.5]}>
-          <sphereGeometry args={[0.5, 32, 32]} />
+          <sphereGeometry args={[0.5, 16, 16]} />
           <meshStandardMaterial color="#78716c" metalness={0.3} roughness={0.8} />
         </mesh>
       </Float>
@@ -474,24 +498,35 @@ const Hero = () => {
 
   }, { scope: containerRef });
 
+  const isMobile = useIsMobile();
+
   return (
     <section ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden bg-stone-950">
-      <motion.div className="absolute inset-0 z-0 hero-bg-canvas" style={{ y: y1 }}>
-        <Canvas camera={{ position: [0, 0, 8.5], fov: 45 }}>
-          <ambientLight intensity={0.3} />
-          <spotLight position={[-10, 15, 10]} color="#f97316" angle={0.25} penumbra={1} intensity={2} castShadow />
-          <directionalLight position={[10, -10, 5]} color="#06b6d4" intensity={1.2} />
-          <spotLight position={[0, 10, 5]} angle={0.15} penumbra={1} intensity={0.8} castShadow />
-          <Suspense fallback={null}>
-            <Environment preset="city" />
-            <AbstractArchitecture />
-          </Suspense>
-        </Canvas>
-      </motion.div>
+      {/* On mobile: lightweight CSS gradient background instead of full 3D canvas */}
+      {isMobile ? (
+        <div className="absolute inset-0 z-0 hero-bg-canvas">
+          <div className="absolute inset-0 bg-gradient-to-br from-stone-950 via-stone-900 to-stone-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(249,115,22,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(6,182,212,0.08),transparent_50%)]" />
+        </div>
+      ) : (
+        <motion.div className="absolute inset-0 z-0 hero-bg-canvas" style={{ y: y1 }}>
+          <Canvas camera={{ position: [0, 0, 8.5], fov: 45 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
+            <ambientLight intensity={0.3} />
+            <spotLight position={[-10, 15, 10]} color="#f97316" angle={0.25} penumbra={1} intensity={2} castShadow={false} />
+            <directionalLight position={[10, -10, 5]} color="#06b6d4" intensity={1.2} />
+            <spotLight position={[0, 10, 5]} angle={0.15} penumbra={1} intensity={0.8} castShadow={false} />
+            <Suspense fallback={null}>
+              <Environment preset="city" />
+              <AbstractArchitecture />
+            </Suspense>
+          </Canvas>
+        </motion.div>
+      )}
       <div className="absolute inset-0 bg-gradient-to-b from-stone-950/50 via-stone-950/30 to-stone-950/70 z-0" />
 
-      {/* Noise grain */}
-      <div className="absolute inset-0 z-[1] opacity-[0.04] pointer-events-none noise-overlay" />
+      {/* Noise grain — disabled on mobile for performance */}
+      {!isMobile && <div className="absolute inset-0 z-[1] opacity-[0.04] pointer-events-none noise-overlay" />}
 
       <motion.div
         style={{ opacity, y: useTransform(scrollY, [0, 500], [0, 100]), scale }}

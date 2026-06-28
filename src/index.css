@@ -227,3 +227,34 @@ img {
     scroll-behavior: auto !important;
   }
 }
+
+/* ══════════════════════════════════════════
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ══════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Disable expensive SVG noise filter overlays on mobile */
+  .noise-overlay::after {
+    display: none !important;
+  }
+
+  /* Reduce backdrop-blur intensity — very expensive on mobile GPUs */
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Simplify premium shadow stacks to single layer */
+  .shadow-premium {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  /* Disable hover lift transforms on touch devices */
+  .card-lift:hover {
+    transform: none;
+  }
+
+  /* Speed up marquee slightly so CPU spends less time on layout */
+  .marquee-track {
+    animation-duration: 25s !important;
+  }
+}
