@@ -13,7 +13,7 @@ const LoadingScreen = () => (
       animate={{ opacity: 1, scale: 1 }}
       className="flex flex-col items-center gap-4"
     >
-      <div className="w-10 h-10 rounded-full border-2 border-stone-700 border-t-[#f97316] animate-spin" />
+      <div className="w-10 h-10 rounded-full border-2 border-stone-700 border-t-accent animate-spin" />
       <span className="text-xs text-stone-500 tracking-widest uppercase font-medium">Verifying session…</span>
     </motion.div>
   </div>

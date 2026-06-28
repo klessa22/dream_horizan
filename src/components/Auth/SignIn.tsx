@@ -88,7 +88,7 @@ export const SignIn = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full bg-stone-900/60 border border-stone-800 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/30 transition-all duration-300"
+              className="w-full bg-stone-900/60 border border-stone-800 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all duration-300"
             />
           </div>
 
@@ -104,14 +104,14 @@ export const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full bg-stone-900/60 border border-stone-800 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/30 transition-all duration-300"
+              className="w-full bg-stone-900/60 border border-stone-800 rounded-lg px-4 py-3 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all duration-300"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#f97316] hover:bg-[#ea650a] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:shadow-lg hover:shadow-[#f97316]/20 flex items-center justify-center gap-2"
+            className="btn-accent w-full disabled:opacity-50 disabled:cursor-not-allowed py-3.5 text-sm font-semibold tracking-wider uppercase hover:shadow-lg hover:shadow-accent/20 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

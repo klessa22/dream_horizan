@@ -8,8 +8,12 @@ export interface User {
 
 // Current user state
 let currentUser: User | null = (() => {
-  const stored = localStorage.getItem('dreamhorizon_admin_user');
-  return stored ? JSON.parse(stored) : null;
+  try {
+    const stored = localStorage.getItem('dreamhorizon_admin_user');
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
 })();
 
 export const auth = {
@@ -31,8 +35,12 @@ export const onAuthStateChanged = (authObj: typeof auth, callback: AuthCallback)
 
 const notifyAuthListeners = () => {
   currentUser = (() => {
-    const stored = localStorage.getItem('dreamhorizon_admin_user');
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem('dreamhorizon_admin_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
   })();
   authListeners.forEach(cb => cb(currentUser));
 };
@@ -116,8 +124,53 @@ const notifyProjectListeners = () => {
   projectListeners.forEach(cb => cb(projects));
 };
 
-// Convert image File to base64 DataURL
+// Compress image before saving to fit within localStorage quota (5MB)
+const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.7): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.src = url;
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Failed to get 2D canvas context'));
+        return;
+      }
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', quality);
+      resolve(dataUrl);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to load image for compression'));
+    };
+  });
+};
+
+// Convert image File to base64 DataURL with compression to prevent QuotaExceededError
 const fileToDataUrl = (file: File): Promise<string> => {
+  if (file.type.startsWith('image/')) {
+    return compressImage(file);
+  }
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);

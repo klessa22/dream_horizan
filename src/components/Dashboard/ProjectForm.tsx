@@ -121,7 +121,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-[#f97316] transition-all"
+              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-accent transition-all"
             />
           </div>
 
@@ -134,7 +134,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
               onChange={(e) => setDesc(e.target.value)}
               rows={3}
               required
-              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-[#f97316] transition-all resize-none"
+              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-accent transition-all resize-none"
             />
           </div>
 
@@ -145,7 +145,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-sm text-stone-300 focus:outline-none focus:border-[#f97316] transition-all"
+                className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-sm text-stone-300 focus:outline-none focus:border-accent transition-all"
               >
                 {categories.map((c) => (
                   <option key={c} value={c} className="bg-stone-950 text-stone-200">
@@ -162,7 +162,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
                 placeholder="e.g. 2024"
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
-                className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-[#f97316] transition-all"
+                className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-accent transition-all"
               />
             </div>
           </div>
@@ -174,7 +174,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
               placeholder="e.g. Private / Corporation"
               value={client}
               onChange={(e) => setClient(e.target.value)}
-              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-[#f97316] transition-all"
+              className="w-full bg-stone-950 border border-stone-800 hover:border-stone-700/60 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-600 focus:outline-none focus:border-accent transition-all"
             />
           </div>
 
@@ -196,9 +196,9 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
                 />
                 <label
                   htmlFor="image-file-input"
-                  className="flex items-center justify-center gap-2 border border-dashed border-stone-800 hover:border-[#f97316]/50 bg-stone-950 text-stone-400 hover:text-white px-4 py-5 rounded-xl cursor-pointer transition-all duration-300 text-xs font-semibold"
+                  className="flex items-center justify-center gap-2 border border-dashed border-stone-800 hover:border-accent/50 bg-stone-950 text-stone-400 hover:text-white px-4 py-5 rounded-xl cursor-pointer transition-all duration-300 text-xs font-semibold"
                 >
-                  <Upload size={14} className="text-[#f97316]" />
+                  <Upload size={14} className="text-accent" />
                   {file ? 'Replace File' : 'Upload from PC'}
                 </label>
               </div>
@@ -231,7 +231,7 @@ export const ProjectForm = ({ initialData, onClose }: Props) => {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 rounded-xl bg-[#f97316] hover:bg-[#e6620f] px-4 py-3 text-xs font-semibold tracking-wider uppercase text-white shadow-lg shadow-[#f97316]/10 hover:shadow-[#f97316]/20 transition-all duration-200 disabled:opacity-50"
+            className="btn-accent flex-1 rounded-xl px-4 py-3 text-xs font-semibold tracking-wider uppercase shadow-lg shadow-accent/10 hover:shadow-accent/20 disabled:opacity-50"
           >
             {loading ? 'Processing…' : isEdit ? 'Save Changes' : 'Publish Project'}
           </button>
